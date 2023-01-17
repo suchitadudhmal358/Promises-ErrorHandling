@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promises Error Handling</title>
+  </head>
+  <body>
+    <script>
+      function makePizza(toppings = []) {
+        return new Promise(function (resolve, reject) {
+          if (toppings.includes("pineapple")) {
+            reject("Seriosuly? Get Out");
+          }
+          setTimeout(function () {
+            resolve(
+              `Here is your pizza with the toppings ${toppings.join(" ")}`
+            );
+          }, 1000);
+        });
+      }
+
+      //   makePizza(["chees", "pineapple"])
+      //     .then((pizza) => {
+      //       console.log(pizza);
+      //     })
+      //     .catch((err) => {
+      //       console.log("Ohh noooo!");
+      //       console.log(err);
+      //     });
+      //   pepperoniPizza = makePizza(["pepperoni"]);
+      //   candianPizza = makePizza(["pepperoni", "mushrooms", "onions"]);
+
+      //   console.log("starting");
+      //   pepperoniPizza.then((pizza) => {
+      //     console.log("Ahh got it!");
+      //     console.log(pizza);
+      //   });
+      //   console.log("finish");
+
+      //   //run all sequencially - in this case when error occur all promises after error promise will not execute
+      //   console.log("first");
+      //   makePizza(["pepperoni"])
+      //     .then(function (pizza) {
+      //       console.log(pizza);
+      //       return makePizza(["ham", "cheese"]);
+      //     })
+      //     .then(function (pizza) {
+      //       console.log(pizza);
+      //       return makePizza(["hot peppers", "onion", "feta"]);
+      //     })
+      //     .then(function (pizza) {
+      //       console.log(pizza);
+      //       return makePizza(["pineapple"]);
+      //     })
+      //     .then(function (pizza) {
+      //       console.log(pizza);
+      //       return makePizza([
+      //         "one",
+      //         "two",
+      //         "three",
+      //         "four",
+      //         "five",
+      //         "one",
+      //         "two",
+      //         "three",
+      //         "four",
+      //         "five",
+      //         "one",
+      //         "two",
+      //         "three",
+      //         "four",
+      //         "five",
+      //       ]);
+      //     })
+
+      //     .then(function (pizza) {
+      //       console.log("All Done");
+      //       console.log(pizza);
+      //     })
+      //     .catch((err) => {
+      //       console.log("ohh nooo!");
+      //       console.log(err);
+      //     });
+      //   console.log("Right After");
+
+      const p1 = makePizza(["cheese"]);
+      const p2 = makePizza(["pineapple"]);
+
+      const dinnerPromise = Promise.allSettled([p1, p2]);
+      //   const dinnerPromise = Promise.all([p1, p2]); // it throws error
+      dinnerPromise.then((result) => {
+        console.log(result);
+      });
+    </script>
+  </body>
+</html>
